@@ -1,0 +1,119 @@
+﻿@model IEnumerable<LaptopMVC.Models.tb_order>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link rel="stylesheet" type="text/css" href="~/Content/client/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/client/styles/categories_responsive.css">
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col product_section clearfix">
+
+            <!-- Breadcrumbs -->
+
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li><a href="/"><i class="fa fa-angle-right" aria-hidden="true"></i>Customer</a></li>
+                    <li class="active"><a href="/"><i class="fa fa-angle-right" aria-hidden="true"></i>List Order</a></li>
+                </ul>
+            </div>
+
+            <!-- Sidebar -->
+            <!-- Main Content -->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 style="text-align:center;">List your order</h4>
+                    <p style="font-size:10px;">
+                        <i>*(Orders can only be canceled within 2 days - from the date of placement)</i></>
+                        <table class="table table-hover">
+                            <thread>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Money</th>
+                                    <th>Date</th>
+                                    <th></th>
+                                </tr>
+                            </thread>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    int i = 1;
+                                    double money = 0;
+                                    DateTime date = DateTime.Now;
+                                    foreach (var item in Model)
+                                    {
+                                        money = (double)item.SumMoney;
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@item.code</td>
+                                            <td>@item.customername</td>
+                                            @if (item.typeOrder == 0)
+                                            {
+                                                <td>Received</td>
+                                            }
+                                            else if (item.typeOrder == 1)
+                                            {
+                                                <td>Paid</td>
+                                            }
+                                            else if (item.typeOrder == 2)
+                                            {
+                                                <td>Canceled</td>
+                                            }
+                                            else
+                                            {
+                                                <td>Shipping</td>
+                                            }
+                                            <td>@money.ToString("#,##0").Replace(',', '.') VND</td>
+                                            <td>@item.createdate.ToShortDateString()<br />@item.createdate.ToShortTimeString()</td>
+                                            <td>
+                                                @Html.ActionLink("Detail", "Details", new { id = item.id }, new { @class = "btn btn-sm btn-primary" })
+                                                @if ((date.Year == item.createdate.Year) && (date.Month == item.createdate.Month))
+                                                {
+                                                    if ((date.Day - item.createdate.Day) < 3 && item.typeOrder == 0)
+                                                    {
+                                                        <a href="@Url.Action("UnOrder", new {id = item.id})" onclick="return confirm('Do you want cancel this invoice: @item.code ?');" class="btn btn-sm btn-danger">Cancel</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="#" onclick="alert('You cannot cancel this invoice: @item.code !'); return false;" class="btn btn-sm btn-danger">Cancel</a>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <a href="#" onclick="alert('You cannot cancel this invoice: @item.code !'); return false;" class="btn btn-sm btn-danger">Cancel</a>
+                                                }
+                                            </td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4">Not invoice!</td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                        <div class="col-md-12">
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Content/client/js/categories_custom.js"></script>
+}
+
+

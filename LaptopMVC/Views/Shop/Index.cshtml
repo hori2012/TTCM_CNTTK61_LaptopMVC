@@ -1,0 +1,375 @@
+﻿@model PagedList.IPagedList<LaptopMVC.Models.tb_product>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Shop";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/client/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/client/styles/categories_responsive.css">
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col product_section clearfix">
+            <!-- Breadcrumbs -->
+
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                    @{string txt = @ViewBag.Categories; }
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="active"><i class="fa fa-angle-right" aria-hidden="true"></i>@Html.ActionLink(" " + txt + "'s", "Index", "Shop", new { categories = ViewBag.Categories }, null)</li>
+                </ul>
+            </div>
+            <!-- Sidebar -->
+
+            <div class="sidebar">
+                <div class="sidebar_section">
+                    <div class="sidebar_title">
+                        <h5>Product Category</h5>
+                    </div>
+                    <ul class="sidebar_categories">
+                        @{
+
+                            if (ViewBag.Categories.Contains("Gaming"))
+                            {
+                                <li class="active"><i class="fa fa-angle-double-right " aria-hidden="true"></i>@Html.ActionLink(" Gaming's", "Index", "Shop", new { categories = "Gaming" }, null)</li>
+                                <li>@Html.ActionLink("Office's", "Index", "Shop", new { categories = "Office" }, null)</li>
+                                <li>@Html.ActionLink("Student's", "Index", "Shop", new { categories = "Student" }, null)</li>
+                                <li>@Html.ActionLink("Shop's", "Index", "Shop", new { categories = "Shop" }, null)</li>
+                            }
+                            else if (ViewBag.Categories.Contains("Office"))
+                            {
+
+                                <li>@Html.ActionLink("Gaming's", "Index", "Shop", new { categories = "Gaming" }, null)</li>
+                                <li class="active"><i class="fa fa-angle-double-right " aria-hidden="true"></i>@Html.ActionLink(" Office's", "Index", "Shop", new { categories = "Office" }, null)</li>
+                                <li>@Html.ActionLink("Student's", "Index", "Shop", new { categories = "Student" }, null)</li>
+                                <li>@Html.ActionLink("Shop's", "Index", "Shop", new { categories = "Shop" }, null)</li>
+                            }
+                            else if (ViewBag.Categories.Contains("Student"))
+                            {
+
+                                <li>@Html.ActionLink("Gaming's", "Index", "Shop", new { categories = "Gaming" }, null)</li>
+                                <li>@Html.ActionLink("Office's", "Index", "Shop", new { categories = "Office" }, null)</li>
+                                <li class="active"><i class="fa fa-angle-double-right " aria-hidden="true"></i>@Html.ActionLink(" Student's", "Index", "Shop", new { categories = "Student" }, null)</li>
+                                <li>@Html.ActionLink("Shop's", "Index", "Shop", new { categories = "Shop" }, null)</li>
+                            }
+                            else
+                            {
+
+                                <li>@Html.ActionLink("Gaming's", "Index", "Shop", new { categories = "Gaming" }, null)</li>
+                                <li>@Html.ActionLink("Office's", "Index", "Shop", new { categories = "Office" }, null)</li>
+                                <li>@Html.ActionLink("Student's", "Index", "Shop", new { categories = "Student" }, null)</li>
+                                <li class="active"><i class="fa fa-angle-double-right active" aria-hidden="true"> </i>@Html.ActionLink(" Shop's", "Index", "Shop", new { categories = "Shop" }, null)</li>
+                            }
+                        }
+
+                    </ul>
+                </div>
+                <!-- Filtering -->
+                <div class="sidebar_section">
+                    <div class="sidebar_title">
+                        Chip
+                    </div>
+                    <input class="filter_product" type="checkbox" name="Core i3" value="i3" style="margin:10px" /><span>Core i3</span>  <br />
+                    <input class="filter_product" type="checkbox" name="Core i3" value="i5" style="margin:10px" /><span>Core i5</span>  <br />
+                    <input class="filter_product" type="checkbox" name="Core i3" value="i7" style="margin:10px" /><span>Core i7</span>  <br />
+                    <input class="filter_product" type="checkbox" name="Core i3" value="i9" style="margin:10px" /><span>Core i9</span>  <br />
+                    <input class="filter_product" type="checkbox" name="Rygen R3" value="R3" style="margin:10px" /><span>Rygen R3</span>  <br />
+                    <input class="filter_product" type="checkbox" name="Rygen R5" value="R5" style="margin:10px" /><span>Rygen R5</span>  <br />
+                    <input class="filter_product" type="checkbox" name="Rygen R7" value="R7" style="margin:10px" /><span>Rygen R7</span>  <br />
+                    <input class="filter_product" type="checkbox" name="Rygen R9" value="R9" style="margin:10px" /><span>Rygen R9</span>  <br />
+                </div>
+                <div class="sidebar_section">
+                    <div class="sidebar_title">
+                        Ram
+                    </div>
+                    <input class="filter_product" type="checkbox" name="4gb" value="4gb" style="margin:10px" /><span>4gb</span>  <br />
+                    <input class="filter_product" type="checkbox" name="8gb" value="8gb" style="margin:10px" /><span>8gb</span>  <br />
+                    <input class="filter_product" type="checkbox" name="16gb" value="16gb" style="margin:10px" /><span>16gb</span>  <br />
+                    <input class="filter_product" type="checkbox" name="32gb" value="32gb" style="margin:10px" /><span>32gb</span>  <br />
+                    <input class="filter_product" type="checkbox" name="64gb" value="64gb" style="margin:10px" /><span>64gb</span>  <br />
+                </div>
+                <div class="sidebar_section">
+                    <div class="sidebar_title">
+                        Screen
+                    </div>
+                    <input class="filter_product" type="checkbox" name="13 inch" value="13 inch" style="margin:10px" /><span>About 13 inch</span>  <br />
+                    <input class="filter_product" type="checkbox" name="14 inch" value="14 inch" style="margin:10px" /><span>About 14 inch</span>  <br />
+                    <input class="filter_product" type="checkbox" name="15 inch" value="15 inch" style="margin:10px" /><span>Over 15 inch</span>  <br />
+                </div>
+                <div class="sidebar_section">
+                    <div class="sidebar_title">
+                        HardDrive
+                    </div>
+                    <input class="filter_product" type="checkbox" name="128gb" value="128gb" style="margin:10px" /><span>SSD 128gb</span>  <br />
+                    <input class="filter_product" type="checkbox" name="256gb" value="256gb" style="margin:10px" /><span>SSD 256gb</span>  <br />
+                    <input class="filter_product" type="checkbox" name="512gb" value="512gb" style="margin:10px" /><span>SSD 512gb</span>  <br />
+                    <input class="filter_product" type="checkbox" name="1tb" value="1tb" style="margin:10px" /><span>SSD 1tb</span>  <br />
+                    <input class="filter_product" type="checkbox" name="trên 1tb" value="trên 1tb" style="margin:10px" /><span>Over 1tb</span>  <br />
+                </div>
+            </div>
+
+            <!-- Main Content -->
+
+            <div class="main_content">
+
+                <!-- Products -->
+
+                <div class="products_iso">
+                    <div class="row">
+                        <div class="col">
+
+                            <!-- Product Sorting -->
+                            <div>
+                                @using (Html.BeginForm("Index", "Shop", FormMethod.Get, new { @class = "form-inline" }))
+                                {
+                                    string categories = ViewBag.Categories;
+                                    string key = ViewBag.Keywords;
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" value="@key" name="searching" placeholder="Name laptop" style="width:650px; max-width: 60%" />
+                                        <input type="text" value="@categories" name="categories" style="display:none;" />
+                                        <input type="submit" class="btn btn-primary" value="search" style=" max-width: 30%" />
+                                    </div>
+                                }
+                            </div>
+                            <br />
+                            <div class="product_sorting_container product_sorting_container_top">
+                                <ul class="product_sorting">
+                                    <li>
+                                        <span class="type_sorting_text">Sorting</span>
+                                        <i class="fa fa-angle-down"></i>
+                                        <ul class="sorting_type">
+                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "original-order" }'><span>Default</span></li>
+                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "price" }'><span>Price</span></li>
+                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "name" }'><span>Name</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="num_sorting_text">Show</span>
+                                        <i class="fa fa-angle-down"></i>
+                                        <ul class="sorting_num">
+                                            <li class="num_sorting_btn"><span>Default</span></li>
+                                            <li class="num_sorting_btn"><span>6</span></li>
+                                            <li class="num_sorting_btn"><span>12</span></li>
+                                            <li class="num_sorting_btn"><span>24</span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+                            <!-- Product Grid -->
+                            @if (Model.TotalItemCount == 0)
+                            {
+                                <hr />
+                                <br />
+                                <h5 style="text-align:center"><i><strong>#This product is currently not available in the shop or this product is out of stock or out of stock!?&#9785;</strong></i></h5>
+                                <h6 style="text-align:center"><i><strong>&#9829;Thank you&#9829;</strong></i></h6>
+
+                            }
+                            else
+                            {
+                                <br />
+                                <h5 style="text-align:center"><i>There are <i class="countItem" id="numDefault">@Model.PageSize</i> products ...</i></h5>
+                                <div class="product-grid">
+                                    @{
+                                        double priceSale = 0;
+                                        var img = "";
+                                        LaptopMVC.Models.tb_productImages checkImg = new LaptopMVC.Models.tb_productImages();
+                                        foreach (var item in Model)
+                                        {
+                                            checkImg = item.tb_productImages.FirstOrDefault(x => x.isDefault);
+
+                                            if (checkImg != null)
+                                            {
+                                                img = checkImg.images;
+                                            }
+                                            if (item.isSale && item.pricesale != 0)
+                                            {
+                                                priceSale = (double)item.pricesale;
+                                                double percent = (double)(((item.price - item.pricesale)/item.price)*100);
+                                                <div class="product-item @item.tb_productcategory.title.ToLower()">
+                                                    <div class="product discount product_filter">
+                                                        <div class="product_image">
+                                                            <img src="~/ManagerUploads/@img" alt="">
+                                                        </div>
+                                                        <div class="favorite favorite_left"></div>
+                                                        <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>@Math.Round(percent)%</span></div>
+                                                        @if (item.quantity == 0)
+                                                        {
+                                                            <div class="product_info">
+                                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                                <div class="product_price">Tạm hết hàng</div>
+                                                                <div class="product_param" style="display:none;">@item.cpu</div>
+                                                                <div class="product_param" style="display:none;">@item.ram</div>
+                                                                <div class="product_param" style="display:none;">@item.screen</div>
+                                                                <div class="product_param" style="display:none;">@item.harddrive</div>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="product_info">
+                                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                                <div class="product_price">@priceSale.ToString("#,##0").Replace(',', '.')VND <span>@item.price.ToString("#,##0").Replace(',', '.')VND</span></div>
+                                                                <div class="product_price">SL: @item.quantity</div>
+                                                                <div class="product_param" style="display:none;">@item.cpu</div>
+                                                                <div class="product_param" style="display:none;">@item.ram</div>
+                                                                <div class="product_param" style="display:none;">@item.ram</div>
+                                                                <div class="product_param" style="display:none;">@item.screen</div>
+                                                                <div class="product_param" style="display:none;">@item.harddrive</div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    @if (item.quantity != 0)
+                                                    {
+                                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "AddToCart", "ShoppingCart", new { id = item.id }, null)</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "Check", "ShoppingCart")</div>
+                                                    }
+                                                </div>
+                                            }
+                                            else if (item.isHot && item.pricesale != 0)
+                                            {
+                                                priceSale = (double)item.pricesale;
+                                                <div class="product-item @item.tb_productcategory.title.ToLower()">
+                                                    <div class="product discount product_filter">
+                                                        <div class="product_image">
+                                                            <img src="~/ManagerUploads/@img" alt="">
+                                                        </div>
+                                                        <div class="favorite favorite_left"></div>
+                                                        <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>hot</span></div>
+                                                        @if (item.quantity == 0)
+                                                        {
+                                                            <div class="product_info">
+                                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                                <div class="product_price">Tạm hết hàng</div>
+                                                                <div class="product_param" style="display:none;">@item.cpu</div>
+                                                                <div class="product_param" style="display:none;">@item.ram</div>
+                                                                <div class="product_param" style="display:none;">@item.screen</div>
+                                                                <div class="product_param" style="display:none;">@item.harddrive</div>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="product_info">
+                                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                                <div class="product_price">@priceSale.ToString("#,##0").Replace(',', '.')VND <span>@item.price.ToString("#,##0").Replace(',', '.')VND</span></div>
+                                                                <div class="product_price">SL: @item.quantity</div>
+                                                                <div class="product_param" style="display:none;">@item.cpu</div>
+                                                                <div class="product_param" style="display:none;">@item.ram</div>
+                                                                <div class="product_param" style="display:none;">@item.screen</div>
+                                                                <div class="product_param" style="display:none;">@item.harddrive</div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    @if (item.quantity != 0)
+                                                    {
+                                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "AddToCart", "ShoppingCart", new { id = item.id }, null)</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "Check", "ShoppingCart")</div>
+                                                    }
+                                                </div>
+                                            }
+                                            else if (item.isHot && item.pricesale == 0)
+                                            {
+                                                <div class="product-item @item.tb_productcategory.title.ToLower()">
+                                                    <div class="product discount product_filter">
+                                                        <div class="product_image">
+                                                            <img src="~/ManagerUploads/@img" alt="">
+                                                        </div>
+                                                        <div class="favorite favorite_left"></div>
+                                                        <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>hot</span></div>
+                                                        @if (item.quantity == 0)
+                                                        {
+                                                            <div class="product_info">
+                                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                                <div class="product_price">Tạm hết hàng</div>
+                                                                <div class="product_param" style="display:none;">@item.cpu</div>
+                                                                <div class="product_param" style="display:none;">@item.ram</div>
+                                                                <div class="product_param" style="display:none;">@item.screen</div>
+                                                                <div class="product_param" style="display:none;">@item.harddrive</div>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="product_info">
+                                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                                <div class="product_price">@item.price.ToString("#,##0").Replace(',', '.')VND</div>
+                                                                <div class="product_price">SL: @item.quantity</div>
+                                                                <div class="product_param" style="display:none;">@item.cpu</div>
+                                                                <div class="product_param" style="display:none;">@item.ram</div>
+                                                                <div class="product_param" style="display:none;">@item.screen</div>
+                                                                <div class="product_param" style="display:none;">@item.harddrive</div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    @if (item.quantity != 0)
+                                                    {
+                                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "AddToCart", "ShoppingCart", new { id = item.id }, null)</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "Check", "ShoppingCart")</div>
+                                                    }
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="product-item @item.tb_productcategory.title.ToLower()">
+                                                    <div class="product discount product_filter">
+                                                        <div class="product_image">
+                                                            <img src="~/ManagerUploads/@img" alt="">
+                                                        </div>
+                                                        <div class="favorite favorite_left"></div>
+                                                        @if (item.quantity == 0)
+                                                        {
+                                                            <div class="product_info">
+                                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                                <div class="product_price">Tạm hết hàng</div>
+                                                                <div class="product_param" style="display:none;">@item.cpu</div>
+                                                                <div class="product_param" style="display:none;">@item.ram</div>
+                                                                <div class="product_param" style="display:none;">@item.screen</div>
+                                                                <div class="product_param" style="display:none;">@item.harddrive</div>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="product_info">
+                                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                                <div class="product_price">@item.price.ToString("#,##0").Replace(',', '.')VND</div>
+                                                                <div class="product_price">SL: @item.quantity</div>
+                                                                <div class="product_param" style="display:none;">@item.cpu</div>
+                                                                <div class="product_param" style="display:none;">@item.ram</div>
+                                                                <div class="product_param" style="display:none;">@item.screen</div>
+                                                                <div class="product_param" style="display:none;">@item.harddrive</div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    @if (item.quantity != 0)
+                                                    {
+                                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "AddToCart", "ShoppingCart", new { id = item.id }, null)</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "Check", "ShoppingCart")</div>
+                                                    }
+                                                </div>
+                                            }
+                                        }
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Content/client/js/categories_custom.js"></script>*
+}
+
+

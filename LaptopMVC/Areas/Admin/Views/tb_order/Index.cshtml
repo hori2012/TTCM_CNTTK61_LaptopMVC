@@ -1,0 +1,168 @@
+﻿@model PagedList.IPagedList<LaptopMVC.Models.tb_order>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Danh sách đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/homeadmin" class="nav-link">Trang chủ</a>
+        </li>
+    </ul>
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Quản lý đơn hàng</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin/tb_order">Home</a></li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"> @ViewBag.Title</h3> <br />
+            <h6 style="font-size:10px;"><i>*(Không được sửa các hóa đơn đã thanh toán)</i></h6>
+            <div class="card-tools">
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    @using (Html.BeginForm("index", "tb_order", FormMethod.Get, new { }))
+                    {
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" value="@ViewBag.Keywords" name="searching" placeholder="Name customer" />
+                            <span class="input-group-append">
+                                <button type="submit" class="btn btn-info btn-flat" style="margin-right:15px;">Tìm kiếm</button>
+                            </span>
+                            @Html.DropDownList("typeOrder", (SelectList)ViewBag.type, new { @class = "form-control", onchange = "this.form.submit();" })
+                        </div>
+
+                    }
+                </div>
+                <form id="fillOrder" action="@Url.Action("Index", "tb_order")" method="get">
+                    <div class="input-group input-group-sm">
+                        <input id="dateTime" type="date" name="date" value="@ViewBag.date" class="form-control" />
+                    </div>
+                </form>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã đơn hàng</th>
+                        <th>Tên Khách hàng</th>
+                        <th>Phone</th>
+                        <th>Tiền</th>
+                        <th>Tổng SL</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        var i = 1;
+                        double money = 0;
+                        foreach (var item in Model)
+                        {
+                            money = (double)item.SumMoney;
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.code</td>
+                                <td>@item.customername</td>
+                                <td>@item.phone</td>
+                                <td>@money.ToString("#,##0").Replace(',', '.')VND</td>
+                                <td>@item.quantity</td>
+                                @if (item.typeOrder == 1)
+                                {
+                                    <td>Đã thanh toán</td>
+                                }
+                                else if (item.typeOrder == 0)
+                                {
+                                    <td>Chờ thành toán</td>
+                                }
+                                else if (item.typeOrder == 2)
+                                {
+
+
+                                    <td>Hủy thanh toán</td>
+                                }
+                                else
+                                {
+                                    <td>Đang được giao</td>
+                                }
+                                <td>@item.createdate.ToShortDateString()</td>
+                                <td>
+                                    @if (item.typeOrder == 1)
+                                    {
+                                        <a href="#" onclick="alert('Bạn không thể sửa hóa đơn này!'); return false;" class="btn btn-sm btn-primary">Sửa</a>
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Sửa", "Edit", new { id = item.id }, new { @class = "btn btn-sm btn-primary" })
+                                    }
+                                    @Html.ActionLink("Xem", "Details", new { id = item.id }, new { @class = "btn btn-sm btn-danger" })
+                                    @* <a href="@Url.Action("Delete", new { id = item.id })" onclick="return confirm('Do you want delete order:{@item.code}?');" class="btn btn-sm btn-default ">Xóa</a>*@
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4">Không có bản ghi nào!!!</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col-6" style="text-align:right;">
+
+                </div>
+            </div>
+
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer" style="text-align:right;">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) - @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+        </div>
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+@section scripts{
+    <script>
+        const fillOrder = document.querySelector("#fillOrder");
+        const dateTime = document.querySelector("#dateTime");
+        dateTime.addEventListener("change", () => {
+            fillOrder.submit();
+        });
+    </script>
+}
+

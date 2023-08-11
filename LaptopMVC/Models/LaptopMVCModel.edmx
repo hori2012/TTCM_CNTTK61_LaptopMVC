@@ -1,0 +1,607 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LaptopMVCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tb_contact">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="250" />
+          <Property Name="website" Type="nvarchar" MaxLength="500" />
+          <Property Name="message" Type="nvarchar(max)" />
+          <Property Name="isRead" Type="bit" Nullable="false" />
+          <Property Name="createdate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_news">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="500" />
+          <Property Name="detail" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="images" Type="nvarchar" MaxLength="250" />
+          <Property Name="createdate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="modifieddate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="250" />
+          <Property Name="customername" Type="nvarchar" MaxLength="500" />
+          <Property Name="phone" Type="varchar" MaxLength="100" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="email" Type="nvarchar" MaxLength="500" />
+          <Property Name="SumMoney" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="typeOrder" Type="int" />
+          <Property Name="createdate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="modifieddate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_orderdetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idorder" Type="int" Nullable="false" />
+          <Property Name="idproduct" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idProductCategory" Type="int" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="detail" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="cpu" Type="varchar" MaxLength="100" />
+          <Property Name="ram" Type="varchar" MaxLength="100" />
+          <Property Name="screen" Type="varchar" MaxLength="100" />
+          <Property Name="harddrive" Type="varchar" MaxLength="100" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="pricesale" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="isSale" Type="bit" Nullable="false" />
+          <Property Name="isHot" Type="bit" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="viewcount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_productcategory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="images" Type="nvarchar" MaxLength="500" />
+          <Property Name="createdate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_productImages">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idProduct" Type="int" Nullable="false" />
+          <Property Name="images" Type="nvarchar" MaxLength="500" />
+          <Property Name="isDefault" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_review">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idProduct" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="review" Type="nvarchar(max)" />
+          <Property Name="createdate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_subscribe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="250" />
+          <Property Name="createdate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tb_orderd__idord__33D4B598">
+          <End Role="tb_order" Type="Self.tb_order" Multiplicity="1" />
+          <End Role="tb_orderdetail" Type="Self.tb_orderdetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_orderdetail">
+              <PropertyRef Name="idorder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_orderd__idpro__34C8D9D1">
+          <End Role="tb_product" Type="Self.tb_product" Multiplicity="1" />
+          <End Role="tb_orderdetail" Type="Self.tb_orderdetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_orderdetail">
+              <PropertyRef Name="idproduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_produc__idPro__2C3393D0">
+          <End Role="tb_productcategory" Type="Self.tb_productcategory" Multiplicity="1" />
+          <End Role="tb_product" Type="Self.tb_product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_productcategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_product">
+              <PropertyRef Name="idProductCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_produc__idPro__2F10007B">
+          <End Role="tb_product" Type="Self.tb_product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_productImages" Type="Self.tb_productImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_productImages">
+              <PropertyRef Name="idProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_review__idPro__49C3F6B7">
+          <End Role="tb_product" Type="Self.tb_product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_review" Type="Self.tb_review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_review">
+              <PropertyRef Name="idProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LaptopMVCModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_contact" EntityType="Self.tb_contact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_news" EntityType="Self.tb_news" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_order" EntityType="Self.tb_order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_orderdetail" EntityType="Self.tb_orderdetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_product" EntityType="Self.tb_product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_productcategory" EntityType="Self.tb_productcategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_productImages" EntityType="Self.tb_productImages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_review" EntityType="Self.tb_review" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_subscribe" EntityType="Self.tb_subscribe" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tb_orderd__idord__33D4B598" Association="Self.FK__tb_orderd__idord__33D4B598">
+            <End Role="tb_order" EntitySet="tb_order" />
+            <End Role="tb_orderdetail" EntitySet="tb_orderdetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_orderd__idpro__34C8D9D1" Association="Self.FK__tb_orderd__idpro__34C8D9D1">
+            <End Role="tb_product" EntitySet="tb_product" />
+            <End Role="tb_orderdetail" EntitySet="tb_orderdetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_produc__idPro__2C3393D0" Association="Self.FK__tb_produc__idPro__2C3393D0">
+            <End Role="tb_productcategory" EntitySet="tb_productcategory" />
+            <End Role="tb_product" EntitySet="tb_product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_produc__idPro__2F10007B" Association="Self.FK__tb_produc__idPro__2F10007B">
+            <End Role="tb_product" EntitySet="tb_product" />
+            <End Role="tb_productImages" EntitySet="tb_productImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_review__idPro__49C3F6B7" Association="Self.FK__tb_review__idPro__49C3F6B7">
+            <End Role="tb_product" EntitySet="tb_product" />
+            <End Role="tb_review" EntitySet="tb_review" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LaptopMVCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tb_contact">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="website" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="isRead" Type="Boolean" Nullable="false" />
+          <Property Name="createdate" Type="DateTime" Nullable="false" Precision="7" />
+        </EntityType>
+        <EntityType Name="tb_news">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="images" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="createdate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="modifieddate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="customername" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SumMoney" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="typeOrder" Type="Int32" />
+          <Property Name="createdate" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="tb_orderdetail" Relationship="Self.FK__tb_orderd__idord__33D4B598" FromRole="tb_order" ToRole="tb_orderdetail" />
+          <Property Name="modifieddate" Type="DateTime" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_orderdetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idorder" Type="Int32" Nullable="false" />
+          <Property Name="idproduct" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_order" Relationship="Self.FK__tb_orderd__idord__33D4B598" FromRole="tb_orderdetail" ToRole="tb_order" />
+          <NavigationProperty Name="tb_product" Relationship="Self.FK__tb_orderd__idpro__34C8D9D1" FromRole="tb_orderdetail" ToRole="tb_product" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idProductCategory" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="cpu" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ram" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="screen" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="harddrive" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="pricesale" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="isSale" Type="Boolean" Nullable="false" />
+          <Property Name="isHot" Type="Boolean" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="viewcount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_orderdetail" Relationship="Self.FK__tb_orderd__idpro__34C8D9D1" FromRole="tb_product" ToRole="tb_orderdetail" />
+          <NavigationProperty Name="tb_productcategory" Relationship="Self.FK__tb_produc__idPro__2C3393D0" FromRole="tb_product" ToRole="tb_productcategory" />
+          <NavigationProperty Name="tb_productImages" Relationship="Self.FK__tb_produc__idPro__2F10007B" FromRole="tb_product" ToRole="tb_productImages" />
+          <NavigationProperty Name="tb_review" Relationship="LaptopMVCModel.FK__tb_review__idPro__49C3F6B7" FromRole="tb_product" ToRole="tb_review" />
+        </EntityType>
+        <EntityType Name="tb_productcategory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="images" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="createdate" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="tb_product" Relationship="Self.FK__tb_produc__idPro__2C3393D0" FromRole="tb_productcategory" ToRole="tb_product" />
+        </EntityType>
+        <EntityType Name="tb_productImages">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idProduct" Type="Int32" Nullable="false" />
+          <Property Name="images" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="isDefault" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tb_product" Relationship="Self.FK__tb_produc__idPro__2F10007B" FromRole="tb_productImages" ToRole="tb_product" />
+        </EntityType>
+        <EntityType Name="tb_subscribe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="createdate" Type="DateTime" Nullable="false" Precision="7" />
+        </EntityType>
+        <Association Name="FK__tb_orderd__idord__33D4B598">
+          <End Role="tb_order" Type="Self.tb_order" Multiplicity="1" />
+          <End Role="tb_orderdetail" Type="Self.tb_orderdetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_orderdetail">
+              <PropertyRef Name="idorder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_orderd__idpro__34C8D9D1">
+          <End Role="tb_product" Type="Self.tb_product" Multiplicity="1" />
+          <End Role="tb_orderdetail" Type="Self.tb_orderdetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_orderdetail">
+              <PropertyRef Name="idproduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_produc__idPro__2C3393D0">
+          <End Role="tb_productcategory" Type="Self.tb_productcategory" Multiplicity="1" />
+          <End Role="tb_product" Type="Self.tb_product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_productcategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_product">
+              <PropertyRef Name="idProductCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_produc__idPro__2F10007B">
+          <End Role="tb_product" Type="Self.tb_product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_productImages" Type="Self.tb_productImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_productImages">
+              <PropertyRef Name="idProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LaptopMVCEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tb_contact" EntityType="Self.tb_contact" />
+          <EntitySet Name="tb_news" EntityType="Self.tb_news" />
+          <EntitySet Name="tb_order" EntityType="Self.tb_order" />
+          <EntitySet Name="tb_orderdetail" EntityType="Self.tb_orderdetail" />
+          <EntitySet Name="tb_product" EntityType="Self.tb_product" />
+          <EntitySet Name="tb_productcategory" EntityType="Self.tb_productcategory" />
+          <EntitySet Name="tb_productImages" EntityType="Self.tb_productImages" />
+          <EntitySet Name="tb_subscribe" EntityType="Self.tb_subscribe" />
+          <AssociationSet Name="FK__tb_orderd__idord__33D4B598" Association="Self.FK__tb_orderd__idord__33D4B598">
+            <End Role="tb_order" EntitySet="tb_order" />
+            <End Role="tb_orderdetail" EntitySet="tb_orderdetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_orderd__idpro__34C8D9D1" Association="Self.FK__tb_orderd__idpro__34C8D9D1">
+            <End Role="tb_product" EntitySet="tb_product" />
+            <End Role="tb_orderdetail" EntitySet="tb_orderdetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_produc__idPro__2C3393D0" Association="Self.FK__tb_produc__idPro__2C3393D0">
+            <End Role="tb_productcategory" EntitySet="tb_productcategory" />
+            <End Role="tb_product" EntitySet="tb_product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_produc__idPro__2F10007B" Association="Self.FK__tb_produc__idPro__2F10007B">
+            <End Role="tb_product" EntitySet="tb_product" />
+            <End Role="tb_productImages" EntitySet="tb_productImages" />
+          </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="LaptopMVCModel.sysdiagram" />
+          <EntitySet Name="tb_review" EntityType="LaptopMVCModel.tb_review" />
+          <AssociationSet Name="FK__tb_review__idPro__49C3F6B7" Association="LaptopMVCModel.FK__tb_review__idPro__49C3F6B7">
+            <End Role="tb_product" EntitySet="tb_product" />
+            <End Role="tb_review" EntitySet="tb_review" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tb_review">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idProduct" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="review" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="createdate" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="tb_product" Relationship="LaptopMVCModel.FK__tb_review__idPro__49C3F6B7" FromRole="tb_review" ToRole="tb_product" />
+        </EntityType>
+        <Association Name="FK__tb_review__idPro__49C3F6B7">
+          <End Type="LaptopMVCModel.tb_product" Role="tb_product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LaptopMVCModel.tb_review" Role="tb_review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_review">
+              <PropertyRef Name="idProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LaptopMVCModelStoreContainer" CdmEntityContainer="LaptopMVCEntities">
+          <EntitySetMapping Name="tb_contact">
+            <EntityTypeMapping TypeName="LaptopMVCModel.tb_contact">
+              <MappingFragment StoreEntitySet="tb_contact">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="isRead" ColumnName="isRead" />
+                <ScalarProperty Name="createdate" ColumnName="createdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_news">
+            <EntityTypeMapping TypeName="LaptopMVCModel.tb_news">
+              <MappingFragment StoreEntitySet="tb_news">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="images" ColumnName="images" />
+                <ScalarProperty Name="createdate" ColumnName="createdate" />
+                <ScalarProperty Name="modifieddate" ColumnName="modifieddate" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_order">
+            <EntityTypeMapping TypeName="LaptopMVCModel.tb_order">
+              <MappingFragment StoreEntitySet="tb_order">
+                <ScalarProperty Name="modifieddate" ColumnName="modifieddate" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="customername" ColumnName="customername" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="SumMoney" ColumnName="SumMoney" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="typeOrder" ColumnName="typeOrder" />
+                <ScalarProperty Name="createdate" ColumnName="createdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_orderdetail">
+            <EntityTypeMapping TypeName="LaptopMVCModel.tb_orderdetail">
+              <MappingFragment StoreEntitySet="tb_orderdetail">
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idorder" ColumnName="idorder" />
+                <ScalarProperty Name="idproduct" ColumnName="idproduct" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_product">
+            <EntityTypeMapping TypeName="LaptopMVCModel.tb_product">
+              <MappingFragment StoreEntitySet="tb_product">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idProductCategory" ColumnName="idProductCategory" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="cpu" ColumnName="cpu" />
+                <ScalarProperty Name="ram" ColumnName="ram" />
+                <ScalarProperty Name="screen" ColumnName="screen" />
+                <ScalarProperty Name="harddrive" ColumnName="harddrive" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="pricesale" ColumnName="pricesale" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="isSale" ColumnName="isSale" />
+                <ScalarProperty Name="isHot" ColumnName="isHot" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="viewcount" ColumnName="viewcount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_productcategory">
+            <EntityTypeMapping TypeName="LaptopMVCModel.tb_productcategory">
+              <MappingFragment StoreEntitySet="tb_productcategory">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="images" ColumnName="images" />
+                <ScalarProperty Name="createdate" ColumnName="createdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_productImages">
+            <EntityTypeMapping TypeName="LaptopMVCModel.tb_productImages">
+              <MappingFragment StoreEntitySet="tb_productImages">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idProduct" ColumnName="idProduct" />
+                <ScalarProperty Name="images" ColumnName="images" />
+                <ScalarProperty Name="isDefault" ColumnName="isDefault" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_subscribe">
+            <EntityTypeMapping TypeName="LaptopMVCModel.tb_subscribe">
+              <MappingFragment StoreEntitySet="tb_subscribe">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="createdate" ColumnName="createdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="LaptopMVCModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_review">
+            <EntityTypeMapping TypeName="LaptopMVCModel.tb_review">
+              <MappingFragment StoreEntitySet="tb_review">
+                <ScalarProperty Name="createdate" ColumnName="createdate" />
+                <ScalarProperty Name="review" ColumnName="review" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="idProduct" ColumnName="idProduct" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

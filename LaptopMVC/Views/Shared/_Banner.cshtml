@@ -1,0 +1,38 @@
+﻿@model IEnumerable<LaptopMVC.Models.tb_productcategory>
+<div class="banner">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4">
+                    <div class="banner_item align-items-center" style="background-image: url(../ManagerUploads/@item.images) ">
+                        <div class="banner_category">
+                            @Html.ActionLink(item.title.ToLower()+"'s", "Index", "Shop", new { categories = item.title }, null)
+                        </div>
+                    </div>
+                </div>
+            }
+            @*<div class="col-md-4">
+                <div class="banner_item align-items-center" style="background-image: url(../ManagerUploads/banner1.jpg) ">
+                    <div class="banner_category">
+                        @Html.ActionLink("gaming's", "Index", "Shop", new { categories = "Gaming" }, null)
+                    </div>
+                </div>
+            </div>*@
+            @*<div class="col-md-4">
+            <div class="banner_item align-items-center" style="background-image: url(../ManagerUploads/banner2.jpg) ">
+                <div class="banner_category">
+                    @Html.ActionLink("office's", "Index", "Shop", new { categories = "Office" }, null)
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="banner_item align-items-center" style="background-image: url(../ManagerUploads/banner3.jpg)">
+                <div class="banner_category">
+                    @Html.ActionLink("student's", "Index", "Shop", new { categories = "Student" }, null)
+                </div>
+            </div>
+        </div>*@
+        </div>
+    </div>
+</div>

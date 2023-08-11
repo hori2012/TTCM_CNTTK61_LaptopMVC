@@ -1,0 +1,156 @@
+﻿@model PagedList.IPagedList<LaptopMVC.Models.tb_product>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Danh sách sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/homeadmin" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/tb_product" class="nav-link">@ViewBag.Title</a>
+        </li>
+    </ul>
+}
+@*<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">*@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Quản lý sản phẩm</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin/tb_product">Home</a></li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">@ViewBag.Title</h3>
+
+            <div class="card-tools">
+                @Html.ActionLink("Thêm mới", "Create", null, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="col-6">
+                @using (Html.BeginForm("Index", "tb_product", FormMethod.Get, new { }))
+                {
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" value="@ViewBag.Keywords" name="searching" placeholder="Name product" />
+                        <span class="input-group-append">
+                            <button type="submit" class="btn btn-info btn-flat">Tìm kiếm</button>
+                        </span>
+                    </div>
+                    <div class="input-group input-group-sm" style="margin-top:10px;">
+                        @Html.DropDownList("productCategoties", (SelectList)ViewBag.productCategoties, "Danh mục", new { @class = "form-control", onchange = "this.form.submit();", @style="margin-right:15px;" })
+                        @Html.DropDownList("sortProduct", (SelectList)ViewBag.sortProduct, "Sắp xếp theo số lượng bán", new { @class = "form-control", onchange = "this.form.submit();" })
+                    </div>
+                }
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Hình ảnh</th>
+                        <th style="width:250px">Tên sản phẩm</th>
+                        <th>Danh mục</th>
+                        <th>Số lượng</th>
+                        <th>Giá</th>
+                        <th>Sale</th>
+                        <th>Hot</th>
+                        <th>Hiển thị</th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        var i = 1;
+                        foreach (var item in Model)
+                        {
+                            var CheckImage = item.tb_productImages.FirstOrDefault(x => x.isDefault);
+                            var strImg = "";
+                            if (CheckImage != null)
+                            {
+                                strImg = CheckImage.images;
+                            }
+                            <tr>
+                                <td>@i</td>
+                                <td><img src="~/ManagerUploads/@strImg" width="50" height="50" /></td>
+                                <td> @Html.DisplayFor(modelItem => item.title)</td>
+                                <td> @Html.DisplayFor(modelItem => item.tb_productcategory.title)</td>
+                                <td>@Html.DisplayFor(modelItem => item.quantity)</td>
+                                <td> @Html.DisplayFor(modelItem => item.price)</td>
+                                <td class="text-center">
+                                    @Html.DisplayFor(modelItem => item.isSale)
+                                </td>
+                                <td class="text-center">
+                                    @Html.DisplayFor(modelItem => item.isHot)
+                                </td>
+                                <td class="text-center">
+                                    @Html.DisplayFor(modelItem => item.isActive)
+                                </td>
+
+                                <td>
+                                    @Html.ActionLink("Sửa", "Edit", new { id = item.id }, new { @class = "btn btn-sm btn-primary" })
+                                    @if (!item.tb_productImages.Any())
+                                    {
+                                        @Html.ActionLink("Ảnh", "Create", "tb_productimages", new { product = item.id }, new { @class = "btn btn-sm btn-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Ảnh", "Index", "tb_productimages", new { searching = item.title }, new { @class = "btn btn-sm btn-danger" })
+                                    }
+                                    @Html.ActionLink("Xem", "Details", new { id = item.id }, new { @class = "btn btn-sm btn-warning" })
+                                    <a href="@Url.Action("Delete", new { id = item.id })" onclick="return confirm('Bạn có muốn xóa sản phẩm: @item.title ?');" class="btn btn-sm btn-default ">Xóa</a>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4">Không có bản ghi nào!!!</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col-6" style="text-align:right;">
+                </div>
+            </div>
+
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) - @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+        </div>
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+

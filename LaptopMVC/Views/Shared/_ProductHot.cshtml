@@ -1,0 +1,101 @@
+﻿@model IEnumerable<LaptopMVC.Models.tb_product>
+<div class="best_sellers">
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <div class="section_title new_arrivals_title">
+                    <h2>Laptop Sellers</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="product_slider_container">
+                    <div class="owl-carousel owl-theme product_slider">
+                        @{
+                            double priceSale = 0;
+                            var img = "";
+                            LaptopMVC.Models.tb_productImages checkImg = new LaptopMVC.Models.tb_productImages();
+                            foreach (var item in Model)
+                            {
+                                checkImg = item.tb_productImages.FirstOrDefault(x => x.isDefault);
+                                if (checkImg != null)
+                                {
+                                    img = checkImg.images;
+                                }
+                                if (item.pricesale != 0)
+                                {
+                                    priceSale = (double)item.pricesale;
+                                    <div class="owl-item product_slider_item">
+                                        <div class="product-item">
+                                            <div class="product discount">
+                                                <div class="product_image">
+                                                    <img src="~/ManagerUploads/@img" alt="">
+                                                </div>
+                                                <div class="favorite favorite_left"></div>
+                                                <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>hot</span></div>
+                                                @if (item.quantity == 0)
+                                                {
+                                                    <div class="product_info">
+                                                        <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                        <div class="product_price">Tạm hết hàng</div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="product_info">
+                                                        <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                        <div class="product_price">@item.price.ToString("#,##0").Replace(',', '.')VND</div>
+                                                        <div class="product_price">SL: @item.quantity</div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="owl-item product_slider_item">
+                                        <div class="product-item">
+                                            <div class="product discount">
+                                                <div class="product_image">
+                                                    <img src="~/ManagerUploads/@img" alt="">
+                                                </div>
+                                                <div class="favorite favorite_left"></div>
+                                                <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>hot</span></div>
+                                                @if (item.quantity == 0)
+                                                {
+                                                    <div class="product_info">
+                                                        <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                        <div class="product_price">Tạm hết hàng</div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="product_info">
+                                                        <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                        <div class="product_price">@item.price.ToString("#,##0").Replace(',', '.')VND</div>
+                                                        <div class="product_price">SL: @item.quantity</div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+
+                    <!-- Slider Navigation -->
+
+                    <div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
+                        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                    </div>
+                    <div class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column">
+                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

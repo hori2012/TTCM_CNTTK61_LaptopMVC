@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Laptop Shop Online</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Laptop Shop Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="~/Content/client/styles/bootstrap4/bootstrap.min.css">
+    <link href="~/Content/client/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="~/Content/client/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/client/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/client/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/client/styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/client/styles/responsive.css">
+
+    <link rel="stylesheet" type="text/css" href="~/Content/client/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+
+
+    @*@Styles.Render("~/Content/css")*@
+    @*@Scripts.Render("~/bundles/modernizr")*@
+</head>
+
+<body>
+
+    <div class="super_container">
+
+        <!-- Header -->
+
+        <header class="header trans_300">
+
+            <!-- Top Navigation -->
+
+            <div class="top_nav">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="top_nav_left">Hotline: +1800578439 and Support: 24/7H</div>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <div class="top_nav_right">
+                                <ul class="top_nav_menu">
+                                    <li class="account">
+                                        @if (!Request.IsAuthenticated)
+                                        {
+                                            <a href="#">
+                                                My Account
+                                                <i class="fa fa-angle-down"></i>
+                                            </a><ul class="account_selection">
+                                                <li><a href="/Account/Login"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
+                                                <li><a href="/Account/Register"><i class="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+                                            </ul>
+                                        }
+                                        else
+                                        {
+                                            <a href="#">
+                                                @User.Identity.Name
+                                                <i class="fa fa-angle-down"></i>
+                                            </a>
+                                            <ul class="account_selection">
+                                                <li><a href="javascript:document.getElementById('logOffForm').submit()"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                                            </ul>
+                                        }
+                                        @if (Request.IsAuthenticated)
+                                        {
+                                            <div style="display:none">
+                                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                }
+                                            </div>
+                                        }
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Navigation -->
+
+            <div class="main_nav_container">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-right">
+                            <div class="logo_container">
+                                <a href="/home">Laptop<span> shop online</span></a>
+                            </div>
+                            <nav class="navbar">
+                                <ul class="navbar_menu">
+                                    <li>@Html.ActionLink("home", "Index", "Home")</li>
+                                    <li>@Html.ActionLink("shop", "Index", "Shop", new { categories = "Shop" }, null)</li>
+                                    <li>@Html.ActionLink("news", "Index", "New")</li>
+                                    <li>@Html.ActionLink("contact", "Index", "Contact")</li>
+                                </ul>
+                                <ul class="navbar_user">
+                                    <li>@Html.ActionLink(" ", "Index", "Shop", new { categories = "Shop" }, new { @class = "fa fa-search" })</li>
+
+                                    @if (Request.IsAuthenticated)
+                                    {
+                                        @*<li><a href="/customer/index?email=@User.Identity.Name"><i class="fa fa-user" aria-hidden="true"></i></a></li>*@
+                                        <li>@Html.ActionLink(" ", "Index", "Customer", new { email = User.Identity.Name }, new { @class = "fa fa-user" })</li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="/Account/Login"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                                        <li style="display:none">
+                                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                            }
+                                        </li>
+                                    }
+                                    @Html.Action("_Cart", "Home")
+                                </ul>
+                                <div class="hamburger_container">
+                                    <i class="fa fa-bars" aria-hidden="true"></i>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+        <div class="fs_menu_overlay"></div>
+        <div class="hamburger_menu">
+            <div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
+            <div class="hamburger_menu_content text-right">
+                <ul class="menu_top_nav">
+                    <li class="menu_item">@Html.ActionLink("home", "Index", "Home")</li>
+                    <li class="menu_item">@Html.ActionLink("shop", "Index", "Shop")</li>
+                    <li class="menu_item">@Html.ActionLink("news", "Index", "New")</li>
+                    <li class="menu_item">@Html.ActionLink("contact", "Index", "Contact")</li>
+                </ul>
+            </div>
+        </div>
+        @RenderBody()
+        <!-- Footer -->
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
+                            <ul class="footer_nav">
+                                <li>@Html.ActionLink("News", "Index", "New")</li>
+                                <li><a href="#">FAQs</a></li>
+                                <li>@Html.ActionLink("Contact Us", "Index", "Contact")</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
+                            <ul>
+                                <li><a href="https://vi-vn.facebook.com/"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                <li><a href="https://www.bing.com/ck/a?!&&p=e143e29df34b61e7JmltdHM9MTY4NDI4MTYwMCZpZ3VpZD0yYjI2NjVlZi0wZjAyLTY1ZTMtMjk0NS03NzdhMGVkYjY0MDYmaW5zaWQ9NTE4Nw&ptn=3&hsh=3&fclid=2b2665ef-0f02-65e3-2945-777a0edb6406&psq=twitter&u=a1aHR0cHM6Ly90d2l0dGVyLmNvbS9sb2dpbg&ntb=1"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                <li><a href="https://www.bing.com/ck/a?!&&p=2c7f7b226faeb0a0JmltdHM9MTY4NDI4MTYwMCZpZ3VpZD0yYjI2NjVlZi0wZjAyLTY1ZTMtMjk0NS03NzdhMGVkYjY0MDYmaW5zaWQ9NTE3OQ&ptn=3&hsh=3&fclid=2b2665ef-0f02-65e3-2945-777a0edb6406&psq=instagram+%c4%91%c4%83ng+nh%e1%ba%adp&u=a1aHR0cHM6Ly93d3cuaW5zdGFncmFtLmNvbS8_aGw9dmk&ntb=1"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                <li><a href="https://www.bing.com/ck/a?!&&p=a8c86dd811eeab33JmltdHM9MTY4NDI4MTYwMCZpZ3VpZD0yYjI2NjVlZi0wZjAyLTY1ZTMtMjk0NS03NzdhMGVkYjY0MDYmaW5zaWQ9NTE3OQ&ptn=3&hsh=3&fclid=2b2665ef-0f02-65e3-2945-777a0edb6406&psq=skype+%c4%91%c4%83ng+nh%e1%ba%adp&u=a1aHR0cHM6Ly93ZWIuc2t5cGUuY29tL3NoYXJl&ntb=1"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
+                                <li><a href="https://www.bing.com/ck/a?!&&p=2050a9a3db503b85JmltdHM9MTY4NDI4MTYwMCZpZ3VpZD0yYjI2NjVlZi0wZjAyLTY1ZTMtMjk0NS03NzdhMGVkYjY0MDYmaW5zaWQ9NTE5MA&ptn=3&hsh=3&fclid=2b2665ef-0f02-65e3-2945-777a0edb6406&psq=printest+%c4%91%c4%83ng+nh%e1%ba%adp&u=a1aHR0cHM6Ly93d3cucGludGVyZXN0LmNvbS9sb2dpbi8&ntb=1"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="footer_nav_container">
+                            <div class="cr">©@DateTime.Now.Year All Rights Reserverd. Made with<i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">UTC2</a> &amp; distributed by <a href="https://utc2.edu.vn/">&#9829; <strong>Hori</strong> &#9829;</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="~/Content/client/js/jquery-3.2.1.min.js"></script>
+    <script src="~/Content/client/styles/bootstrap4/popper.js"></script>
+    <script src="~/Content/client/styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="~/Content/client/plugins/Isotope/isotope.pkgd.min.js"></script>
+    <script src="~/Content/client/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="~/Content/client/plugins/easing/easing.js"></script>
+    <script src="~/Content/client/js/custom.js"></script>
+    <script src="~/Content/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script>
+        window.addEventListener('pageshow', function (event) {
+            var historyTraversal = event.persisted ||
+                (typeof window.performance != 'undefined' &&
+                    window.performance.navigation.type === 2);
+            if (historyTraversal) {
+                // Handle page restore.
+                window.location.reload();
+            }
+        });
+    </script>
+
+    @*@Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")*@
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

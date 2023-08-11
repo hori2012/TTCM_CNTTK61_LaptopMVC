@@ -1,0 +1,275 @@
+﻿@model LaptopMVC.Models.tb_product
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/client/styles/single_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/client/styles/single_responsive.css">
+<link rel="stylesheet" href="~/Content/client/plugins/themify-icons/themify-icons.css">
+<div class="container single_product_container">
+    <div class="row">
+        <div class="col">
+
+            <!-- Breadcrumbs -->
+
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li><i class="fa fa-angle-right" aria-hidden="true"></i>@Html.ActionLink(" " + Model.tb_productcategory.title + "'s", "Index", "Shop", new { categories = @Model.tb_productcategory.title }, null)</li>
+                    <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>@Model.title</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="single_product_pics">
+                <div class="row">
+                    <div class="col-lg-3 thumbnails_col order-lg-1 order-2">
+                        <div class="single_product_thumbnails">
+                            <ul>
+                                @{
+                                    var images = Model.tb_productImages.OrderBy(x => x.id);
+                                    var img = "";
+                                    var imgInf = "";
+                                    int i = 0;
+                                    foreach (var item in images)
+                                    {
+                                        if (item.isDefault)
+                                        {
+                                            img = item.images;
+                                            <li class="active"><img src="~/ManagerUploads/@img" alt="" data-image="/ManagerUploads/@img"></li>
+                                        }
+                                        else if (item.images.Contains("Tt") || item.images.Contains("TT"))
+                                        {
+                                            imgInf = item.images;
+                                        }
+                                        else if (i <= 3)
+                                        {
+                                            <li><img src="~/ManagerUploads/@item.images" alt="" data-image="/ManagerUploads/@item.images"></li>
+
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                        i++;
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 image_col order-lg-2 order-1">
+                        <div class="single_product_image">
+                            <div class="single_product_image_background" style="background-image:url(/ManagerUploads/@img)"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="product_details">
+                <div class="product_details_title">
+                    <h2>@Model.title</h2>
+                    <p>@Model.description...</p>
+                </div>
+                @if (Model.quantity == 0)
+                {
+                    <div class="product_price">Tạm hết hàng</div>
+                }
+                else
+                {
+                    if (Model.pricesale != 0)
+                    {
+                        double priceSale = (double)Model.pricesale;
+                        <div class="original_price">@Model.price.ToString("#,##0").Replace(',', '.')VND</div>
+                        <div class="product_price">@priceSale.ToString("#,##0").Replace(',', '.')VND</div>
+                    }
+                    else
+                    {
+                        <div class="product_price">@Model.price.ToString("#,##0").Replace(',', '.')VND</div>
+                    }
+                }
+                @*<ul class="star_rating">
+                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                    <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                </ul>*@
+                <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
+
+                    @if (Model.quantity != 0)
+                    {
+
+                        <div class="red_button" style="width: 190px; margin-left: 19px; font-size: 12px !important;">@Html.ActionLink("add to cart", "AddToCart", "ShoppingCart", new { id = Model.id }, null)</div>
+                    }
+                    else
+                    {
+                        <div class="red_button" style="width: 190px; margin-left: 19px; font-size: 12px !important;">@Html.ActionLink("add to cart", "Check", "ShoppingCart")</div>
+                    }
+                    @*<div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabs -->
+
+<div class="tabs_section_container">
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="tabs_container">
+                    @{var review = Model.tb_review.Where(x => x.idProduct == Model.id).ToList(); }
+                    <ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
+                        <li class="tab active" data-active-tab="tab_1"><span>Description</span></li>
+                        <li class="tab" data-active-tab="tab_2"><span>Additional Information</span></li>
+                        <li class="tab" data-active-tab="tab_3"><span>Reviews (@review.Count())</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+
+                <!-- Tab Description -->
+
+                <div id="tab_1" class="tab_container active">
+                    <div class="tab_title">
+                        <h4>@Model.title</h4>
+                    </div>
+
+                    <div style="margin-top:-60px;">@Html.Raw(Model.detail.Replace("♦", "<br><br>♦ "))</div>
+                </div>
+                <div id="tab_2" class="tab_container">
+                    <div class="row" style="width:fit-content;">
+                        <div class="col additional_info_col">
+                            <div class="tab_title additional_info_title">
+                                <h4>Additional Information</h4>
+                            </div>
+                            <p>&#9830; CPU: @Model.cpu</p>
+                            <p>&#9830; Ram: @Model.ram</p>
+                            <p>&#9830; Screen: @Model.screen </p>
+                            <p>&#9830; Hard Drive: @Model.harddrive</p>
+                        </div>
+                    </div>
+                    <div style="text-align:center; margin-top:-180px; margin-left:150px;">
+                        <img src="~/ManagerUploads/@imgInf" alt="" width="850">
+                    </div>
+                </div>
+                <div id="tab_3" class="tab_container">
+                    <div class="row">
+
+                        <!-- User Reviews -->
+
+                        <div class="col-lg-6 reviews_col">
+                            <div class="tab_title reviews_title">
+                                <h4>Reviews (@review.Count())</h4>
+                            </div>
+
+                            <!-- User Review -->
+                            @{i = 0;}
+                            @foreach (var item in review)
+                            {
+                                <div class="user_review_container d-flex flex-column flex-sm-row">
+                                    <div class="user">
+                                        <p id="user_name_@i" style="display:none;">@item.name</p>
+                                        <div class="user_pic" id="picture_user_@i"></div>
+                                    </div>
+                                    <div class="review">
+                                        <div class="review_date">@item.createdate.ToString()</div>
+                                        <div class="user_name">@item.name</div>
+                                        <p style="margin-top:-10px; font-size:13px;"><i>@item.email</i></p>
+                                        <p>@item.review.</p>
+                                    </div>
+                                </div>
+                                i++;
+                            }
+                        </div>
+
+                        <!-- Add Review -->
+
+                        <div class="col-lg-6 add_review_col">
+
+                            <div class="add_review">
+                                @using (Html.BeginForm("AddReview", "Product", FormMethod.Post))
+                                {
+                                    Html.AntiForgeryToken();
+                                    <div>
+                                        <h1>Add Review</h1>
+                                        <input type="number" style="display:none;" value="@Model.id" name="id" />
+                                        <input id="review_name" class="form_input input_name" type="text" name="name" placeholder="Name*" required="required" data-error="Name is required.">
+                                        <input id="review_email" class="form_input input_email" type="email" name="email" placeholder="Email*" required="required" data-error="Valid email is required." value="@User.Identity.Name">
+                                    </div>
+                                    <div>
+                                        <textarea id="review_message" class="input_review" name="message" placeholder="Your Review" rows="4" required data-error="Please, leave us a review."></textarea>
+                                    </div>
+                                    <div class="text-left text-sm-right">
+                                        <button id="review_submit" type="submit" class="red_button review_submit_btn trans_300" value="Submit" style="margin-top:10px;">submit</button>
+                                    </div>
+                                    @*if (Request.IsAuthenticated)
+                                    {
+                                        <div class="text-left text-sm-right">
+                                            <button id="review_submit" type="submit" class="red_button review_submit_btn trans_300" value="Submit" style="margin-top:10px;">submit</button>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-left text-sm-right">
+                                            <div class="red_button review_submit_btn trans_300" style="margin-top:10px;">@Html.ActionLink("Submit", "Login", "Account")</div>
+                                        </div>
+                                    }*@
+
+                                }
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    <script src="~/Content/client/js/single_custom.js"></script>
+    <script>
+        const userPicElements = document.querySelectorAll(".user_pic");
+        for (let i = 0; i < userPicElements.length; i++) {
+            const name = document.querySelector(`#user_name_${i}`).innerHTML;
+            const nameParts = name.split(" ");
+            const firstLetter = nameParts[0].charAt(0).toUpperCase() + nameParts[nameParts.length - 1].charAt(0).toUpperCase();
+            const canvas = document.createElement("canvas");
+            canvas.width = 70;
+            canvas.height = 70;
+
+            const ctx = canvas.getContext("2d");
+            const randomColor = () => {
+                const r = Math.floor(Math.random() * 256);
+                const g = Math.floor(Math.random() * 256);
+                const b = Math.floor(Math.random() * 256);
+                return `rgb(${r}, ${g}, ${b})`;
+            };
+            ctx.fillStyle = randomColor();
+            ctx.arc(35, 35, 35, 0, 2 * Math.PI);
+            ctx.fill();
+
+            ctx.font = "bold 20px Arial";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillStyle = "white";
+            ctx.fillText(firstLetter, canvas.width / 2, canvas.height / 2);
+            const div = document.querySelector(`#picture_user_${i}`);
+            div.appendChild(canvas);
+        }
+    </script>
+}

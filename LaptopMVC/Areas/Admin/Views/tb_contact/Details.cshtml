@@ -1,0 +1,110 @@
+﻿@model LaptopMVC.Models.tb_contact
+
+@{
+    ViewBag.Title = "Chi tiết liên hệ";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/homeadmin" class="nav-link">Trang chủ</a>
+        </li>
+    </ul>
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Quản lý liên hệ</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin/tb_contact">Home</a></li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"> @ViewBag.Title</h3>
+
+        </div>
+        <div class="card-body">
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.email)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.email)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.website)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.website)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.message)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.message)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.isRead)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.isRead)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.createdate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.createdate)
+                    </dd>
+                </dl>
+            </div>
+
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+            <p>
+                @*@Html.ActionLink("Sửa", "Edit", new { id = Model.id }, new { @class = "btn btn-primary" })*@
+                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-danger" })
+            </p>
+
+        </div>
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>

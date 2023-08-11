@@ -1,0 +1,43 @@
+﻿@model LaptopMVC.Models.tb_orderdetail
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tb_orderdetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tb_order.code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tb_order.code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tb_product.title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tb_product.title)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

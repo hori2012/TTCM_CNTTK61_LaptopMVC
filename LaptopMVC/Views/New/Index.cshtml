@@ -1,0 +1,88 @@
+﻿@model PagedList.IPagedList<LaptopMVC.Models.tb_news>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "News";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Slider -->
+<style>
+    .news_section_container {
+        margin-top: 5px;
+    }
+
+    .row-item-new {
+        margin-bottom: 20px;
+    }
+
+    .title-news {
+        font-size: 24px;
+        border-bottom: 1px solid;
+        padding: 15px 0;
+        margin-bottom: 25px;
+    }
+
+    .img-box img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .pagination-container .pagination li {
+        margin-right: 10px;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="~/Content/client/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/client/styles/categories_responsive.css">
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col product_section clearfix">
+            <!-- Breadcrumbs -->
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="active"><i class="fa fa-angle-right" aria-hidden="true"></i>@Html.ActionLink("New's", "Index", "New")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container news_section_container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="title-news" style="text-align:center;"> List news</h1>
+        </div>
+    </div>
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <div class="row row-item-new">
+                <div class="col-md-3">
+                    <div class="img-box">
+                        <a href="" title="@item.title"><img src="~/ManagerUploads/@item.images" alt="@item.title" /></a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="content-box">
+                        <h3>@Html.ActionLink(item.title, "Detail", "New", new { id = item.id }, null)</h3>
+                        <div class="description-box">
+                            @item.description...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col-6"></div>
+            <div class="col-6" style="text-align:right;">
+            </div>
+        </div>
+    }
+    <div>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Content/client/js/categories_custom.js"></script>*
+}

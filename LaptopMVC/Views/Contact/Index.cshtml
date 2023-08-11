@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/client/styles/contact_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/client/styles/contact_responsive.css">
+<div class="container contact_container">
+    <div class="row">
+        <div class="col">
+
+            <!-- Breadcrumbs -->
+
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="active"><i class="fa fa-angle-right" aria-hidden="true"></i>@Html.ActionLink(" Contact", "Index", "Contact", null)</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Map Container -->
+
+    <div class="row">
+        <div class="col">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15674.548258510302!2d106.78245435!3d10.839061800000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527158a0a5b81%3A0xf45c5d34ac580517!2zUGjDom4gaGnhu4d1IFRyxrDhu51uZyDEkOG6oWkgaOG7jWMgR1RWVCB04bqhaSBUcC4gSOG7kyBDaMOtIE1pbmg!5e0!3m2!1svi!2s!4v1684140809726!5m2!1svi!2s" width="800" height="600" style="border:0; max-width:80%; max-height:80%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+
+    <!-- Contact Us -->
+
+    <div class="row">
+
+        <div class="col-lg-6 contact_col">
+            <div class="contact_contents">
+                <h1>Contact Us</h1>
+                <p>There are many ways to contact us. You may drop us a line, give us a call or send an email, choose what suits you the most.</p>
+                <div>
+                    <p>(800) 686-6688</p>
+                    <p>info.deercreative@gmail.com</p>
+                </div>
+                <div>
+                    <p>Open hours: 8.00-18.00 Mon-Fri</p>
+                    <p>Sunday: Closed</p>
+                </div>
+            </div>
+
+            <!-- Follow Us -->
+
+            <div class="follow_us_contents">
+                <h1>Follow Us</h1>
+                <ul class="social d-flex flex-row">
+                    <li><a href="https://vi-vn.facebook.com/" style="background-color: #3a61c9"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                    <li><a href="https://www.bing.com/ck/a?!&&p=e143e29df34b61e7JmltdHM9MTY4NDI4MTYwMCZpZ3VpZD0yYjI2NjVlZi0wZjAyLTY1ZTMtMjk0NS03NzdhMGVkYjY0MDYmaW5zaWQ9NTE4Nw&ptn=3&hsh=3&fclid=2b2665ef-0f02-65e3-2945-777a0edb6406&psq=twitter&u=a1aHR0cHM6Ly90d2l0dGVyLmNvbS9sb2dpbg&ntb=1" style="background-color: #41a1f6"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                    <li><a href="https://www.bing.com/ck/a?!&&p=0067c5c24c7f07e3JmltdHM9MTY4NDM2ODAwMCZpZ3VpZD0yYjI2NjVlZi0wZjAyLTY1ZTMtMjk0NS03NzdhMGVkYjY0MDYmaW5zaWQ9NTIzNQ&ptn=3&hsh=3&fclid=2b2665ef-0f02-65e3-2945-777a0edb6406&psq=google%2b&u=a1aHR0cHM6Ly9wbHVzLmdvb2dsZS5jb20v&ntb=1" style="background-color: #fb4343"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                    <li><a href="https://www.bing.com/ck/a?!&&p=2c7f7b226faeb0a0JmltdHM9MTY4NDI4MTYwMCZpZ3VpZD0yYjI2NjVlZi0wZjAyLTY1ZTMtMjk0NS03NzdhMGVkYjY0MDYmaW5zaWQ9NTE3OQ&ptn=3&hsh=3&fclid=2b2665ef-0f02-65e3-2945-777a0edb6406&psq=instagram+%c4%91%c4%83ng+nh%e1%ba%adp&u=a1aHR0cHM6Ly93d3cuaW5zdGFncmFtLmNvbS8_aGw9dmk&ntb=1" style="background-color: #8f6247"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="col-lg-6 get_in_touch_col">
+            <div class="get_in_touch_contents">
+                <h1>Get In Touch With Us!</h1>
+                <p>Fill out the form below to recieve a free and confidential.</p>
+
+                @using (Html.BeginForm("addContact", "Contact", FormMethod.Post, new { }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div>
+                        <input id="input_name" class="form_input input_name input_ph" type="text" name="name" placeholder="Name" required="required" data-error="Name is required.">
+                        <input id="input_email" class="form_input input_email input_ph" type="email" name="email" placeholder="Email" required="required" data-error="Valid email is required.">
+                        <input id="input_website" class="form_input input_website input_ph" type="url" name="website" placeholder="Website" required="required" data-error="Name is required.">
+                        <textarea id="input_message" class="input_ph input_message" name="message" placeholder="Message" rows="3" required data-error="Please, write us a message."></textarea>
+                    </div>
+                    <div>
+                        <button id="review_submit" type="submit" class="red_button message_submit_btn trans_300" value="Submit">send message</button>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts{
+    <script src="~/Content/client/js/contact_custom.js"></script>
+}
+
+

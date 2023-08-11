@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Succesful";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/client/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/client/styles/categories_responsive.css">
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col product_section clearfix">
+
+            <!-- Breadcrumbs -->
+
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="active"><a href="/"><i class="fa fa-angle-right" aria-hidden="true"></i>Cart's</a></li>
+                </ul>
+            </div>
+
+            <!-- Sidebar -->
+            <!-- Main Content -->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 style="text-align:center"><i>You have placed your order successfully !!&#9786;</i></h2>
+                    <h3 style="text-align:center">
+                        <i>
+                            Thank you for visiting, wish you much health &#9829;
+                        </i>
+                    </h3>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Content/client/js/categories_custom.js"></script>
+}
+

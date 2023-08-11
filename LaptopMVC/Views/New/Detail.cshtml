@@ -1,0 +1,59 @@
+﻿@model LaptopMVC.Models.tb_news
+@{
+    ViewBag.Title = "News Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/client/styles/single_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/client/styles/single_responsive.css">
+<link rel="stylesheet" href="~/Content/client/plugins/themify-icons/themify-icons.css">
+
+@*<h2 style="align-items:center">@Model.Title</h2>*@
+<div class="container single_product_container">
+    <div class="row">
+        <div class="col">
+
+            <!-- Breadcrumbs -->
+
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li><i class="fa fa-angle-right" aria-hidden="true"></i>@Html.ActionLink("New's", "Index", "New")</li>
+                    <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>@Model.title</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <h3>@Model.title</h3>
+    </div>
+    <hr />
+    <br />
+    <div class="row">
+        <img src="~/ManagerUploads/@Model.images" alt="" />
+    </div>
+    <br />
+    <div class="row">
+        @{
+            //string[] arr = Model.Detail.Split('.');
+            //string[] arr = System.Text.RegularExpressions.Regex.Split(Model.Detail, @"(?<!\.)\.(?!\.)|(?<!\d)\.(?!\d)");
+            string[] arr = System.Text.RegularExpressions.Regex.Split(Model.detail, @"(?<!\d)\.(?!\d)");
+            int l = arr.Length;
+            foreach (var str in arr)
+            {
+                if (l - 1 > 0)
+                {
+                    <p>@str.</p>
+                }
+                l--;
+
+            }
+        }
+    </div>
+</div>
+@section scripts{
+    <script src="~/Content/client/js/single_custom.js"></script>
+}
+
+

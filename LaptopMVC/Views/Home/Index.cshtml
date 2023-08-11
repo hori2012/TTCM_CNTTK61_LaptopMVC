@@ -1,0 +1,333 @@
+﻿@model IEnumerable<LaptopMVC.Models.tb_product>
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Slider -->
+
+<div class="main_slider" style="background-image: url(../ManagerUploads/slider.jpg) ">
+    <div class="container fill_height">
+        <div class="row align-items-center fill_height">
+            <div class="col">
+                <div class="main_slider_content">
+                    <h6>Spring / Laptop summer 2023</h6>
+                    <h1>Get up to 20% Off New Latop</h1>
+                    <div class="red_button shop_now_button">@Html.ActionLink("shop now", "Index", "Shop", new { categories = "Shop" }, null)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Banner -->
+
+@Html.Action("Banner")
+
+<!-- New Arrivals -->
+
+<div class="new_arrivals">
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <div class="section_title new_arrivals_title">
+                    <h2>New Latops</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col text-center">
+                <div class="new_arrivals_sorting">
+                    <ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
+                        <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*">all</li>
+                        <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".gaming">gaming's</li>
+                        <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".office">office's</li>
+                        <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".student">student's</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>
+
+                    @{
+                        double priceSale = 0;
+                        var img = "";
+                        LaptopMVC.Models.tb_productImages checkImg = new LaptopMVC.Models.tb_productImages();
+                        foreach (var item in Model)
+                        {
+                            checkImg = item.tb_productImages.FirstOrDefault(x => x.isDefault);
+
+                            if (checkImg != null)
+                            {
+                                img = checkImg.images;
+                            }
+                            if (item.isSale && item.pricesale != 0)
+                            {
+                                priceSale = (double)item.pricesale;
+                                double percent = (double)(((item.price - item.pricesale) / item.price) * 100);
+                                <div class="product-item @item.tb_productcategory.title.ToLower()">
+                                    <div class="product discount product_filter">
+                                        <div class="product_image">
+                                            <img src="~/ManagerUploads/@img" alt="">
+                                        </div>
+                                        <div class="favorite favorite_left"></div>
+                                        <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>@Math.Round(percent)%</span></div>
+                                        @if (item.quantity == 0)
+                                        {
+                                            <div class="product_info">
+                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                <div class="product_price">Tạm hết hàng</div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="product_info">
+                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                <div class="product_price">@priceSale.ToString("#,##0").Replace(',', '.')VND <span>@item.price.ToString("#,##0").Replace(',', '.')VND</span></div>
+                                                <div class="product_price">SL: @item.quantity</div>
+                                            </div>
+                                        }
+                                    </div>
+                                    @if (item.quantity != 0)
+                                    {
+                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "AddToCart", "ShoppingCart", new { id = item.id }, null)</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "Check", "ShoppingCart")</div>
+                                    }
+                                </div>
+                            }
+                            else if (item.isHot && item.pricesale != 0)
+                            {
+                                priceSale = (double)item.pricesale;
+                                <div class="product-item @item.tb_productcategory.title.ToLower()">
+                                    <div class="product discount product_filter">
+                                        <div class="product_image">
+                                            <img src="~/ManagerUploads/@img" alt="">
+                                        </div>
+                                        <div class="favorite favorite_left"></div>
+                                        <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>hot</span></div>
+                                        @if (item.quantity == 0)
+                                        {
+                                            <div class="product_info">
+                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                <div class="product_price">Tạm hết hàng</div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="product_info">
+                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                <div class="product_price">@priceSale.ToString("#,##0").Replace(',', '.')VND <span>@item.price.ToString("#,##0").Replace(',', '.')VND</span></div>
+                                                <div class="product_price">SL: @item.quantity</div>
+                                            </div>
+                                        }
+                                    </div>
+                                    @if (item.quantity != 0)
+                                    {
+                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "AddToCart", "ShoppingCart", new { id = item.id }, null)</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "Check", "ShoppingCart")</div>
+                                    }
+                                </div>
+                            }
+                            else if (item.isHot && item.pricesale == 0)
+                            {
+                                <div class="product-item @item.tb_productcategory.title.ToLower()">
+                                    <div class="product discount product_filter">
+                                        <div class="product_image">
+                                            <img src="~/ManagerUploads/@img" alt="">
+                                        </div>
+                                        <div class="favorite favorite_left"></div>
+                                        <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>hot</span></div>
+                                        @if (item.quantity == 0)
+                                        {
+                                            <div class="product_info">
+                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                <div class="product_price">Tạm hết hàng</div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="product_info">
+                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                <div class="product_price">@item.price.ToString("#,##0").Replace(',', '.')VND</div>
+                                                <div class="product_price">SL: @item.quantity</div>
+                                            </div>
+                                        }
+                                    </div>
+                                    @if (item.quantity != 0)
+                                    {
+                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "AddToCart", "ShoppingCart", new { id = item.id }, null)</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "Check", "ShoppingCart")</div>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="product-item @item.tb_productcategory.title.ToLower()">
+                                    <div class="product discount product_filter">
+                                        <div class="product_image">
+                                            <img src="~/ManagerUploads/@img" alt="">
+                                        </div>
+                                        <div class="favorite favorite_left"></div>
+                                        @if (item.quantity == 0)
+                                        {
+                                            <div class="product_info">
+                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                <div class="product_price">Tạm hết hàng</div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="product_info">
+                                                <h6 class="product_name">@Html.ActionLink(@item.title, "Index", "Product", new { id = item.id }, null)</h6>
+                                                <div class="product_price">@item.price.ToString("#,##0").Replace(',', '.')VND</div>
+                                                <div class="product_price">SL: @item.quantity</div>
+                                            </div>
+                                        }
+                                    </div>
+                                    @if (item.quantity != 0)
+                                    {
+                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "AddToCart", "ShoppingCart", new { id = item.id }, null)</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="red_button add_to_cart_button">@Html.ActionLink("add to cart", "Check", "ShoppingCart")</div>
+                                    }
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Deal of the week -->
+
+<div class="deal_ofthe_week">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="deal_ofthe_week_img">
+                    <img src="~/ManagerUploads/zyro-image.png" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 text-right deal_ofthe_week_col">
+                <div class="deal_ofthe_week_content d-flex flex-column align-items-center float-right">
+                    <div class="section_title">
+                        <h2>Deal Of The Week</h2>
+                    </div>
+                    <ul class="timer">
+                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
+                            <div id="day" class="timer_num">05</div>
+                            <div class="timer_unit">Day</div>
+                        </li>
+                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
+                            <div id="hour" class="timer_num">15</div>
+                            <div class="timer_unit">Hours</div>
+                        </li>
+                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
+                            <div id="minute" class="timer_num">45</div>
+                            <div class="timer_unit">Mins</div>
+                        </li>
+                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
+                            <div id="second" class="timer_num">23</div>
+                            <div class="timer_unit">Sec</div>
+                        </li>
+                    </ul>
+                    <div class="red_button deal_ofthe_week_button">@Html.ActionLink("shop now", "Index", "Shop", new { categories = "Shop" }, null)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Best Sellers -->
+
+@Html.Action("ProductHot")
+
+<!-- Benefit -->
+
+<div class="benefit">
+    <div class="container">
+        <div class="row benefit_row">
+            <div class="col-lg-3 benefit_col">
+                <div class="benefit_item d-flex flex-row align-items-center">
+                    <div class="benefit_icon"><i class="fa fa-truck" aria-hidden="true"></i></div>
+                    <div class="benefit_content">
+                        <h6>free shipping</h6>
+                        <p>Suffered Alteration in Some Form</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 benefit_col">
+                <div class="benefit_item d-flex flex-row align-items-center">
+                    <div class="benefit_icon"><i class="fa fa-money" aria-hidden="true"></i></div>
+                    <div class="benefit_content">
+                        <h6>cach on delivery</h6>
+                        <p>The Internet Tend To Repeat</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 benefit_col">
+                <div class="benefit_item d-flex flex-row align-items-center">
+                    <div class="benefit_icon"><i class="fa fa-undo" aria-hidden="true"></i></div>
+                    <div class="benefit_content">
+                        <h6>45 days return</h6>
+                        <p>Making it Look Like Readable</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 benefit_col">
+                <div class="benefit_item d-flex flex-row align-items-center">
+                    <div class="benefit_icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+                    <div class="benefit_content">
+                        <h6>opening all week</h6>
+                        <p>8AM - 09PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- News -->
+
+@Html.Action("New")
+
+<!-- Newsletter -->
+
+<div class="newsletter">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
+                    <h4>Gift vouchers</h4>
+                    <p>Subscribe to our vouchers and get 20% off your first purchase</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                @using (Html.BeginForm("addSubscribe", "Home", FormMethod.Post, new { }))
+                {
+                    @Html.AntiForgeryToken()
+                <div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
+                    <input id="newsletter_email" type="email" placeholder="Your email" name="email">
+                    <button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit" onclick="alert('Subscribe success !')">subscribe</button>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
